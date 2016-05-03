@@ -6,13 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.damam.wtestapp.R;
 import com.damam.wtestapp.http.HttpEngine;
+import com.damam.wtestapp.io.ListItem;
 import com.damam.wtestapp.io.ListResponse;
 import com.damam.wtestapp.listener.GetListListener;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -58,11 +62,20 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(ListResponse response) {
                 if (progressDialog != null && progressDialog.isShowing())
                     progressDialog.dismiss();
+
+                ArrayList<ListItem> rows = new ArrayList<>();
+                for (ListItem item : response.rows) {
+                    if (TextUtils.isEmpty(item.title) && TextUtils.isEmpty(item.description) && TextUtils.isEmpty(item.imageHref)) {
+                        continue;
+                    }
+                    rows.add(item);
+                }
+
                 refreshLayout.setRefreshing(false);
                 listview.setVisibility(View.VISIBLE);
                 noContentView.setVisibility(View.GONE);
                 setTitle(response.title);
-                listview.setAdapter(new ItemListAdapter(response.rows));
+                listview.setAdapter(new ItemListAdapter(rows));
             }
 
             @Override

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.damam.wtestapp.R;
 import com.damam.wtestapp.io.ItemHolder;
 import com.damam.wtestapp.io.ListItem;
@@ -42,9 +43,14 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemHolder> {
         }
         if (!TextUtils.isEmpty(item.imageHref)) {
             holder.imageView.setVisibility(View.VISIBLE);
-            Picasso.with(holder.imageView.getContext()).load(item.imageHref).centerCrop()
-                    .resizeDimen(R.dimen.image_icon_width, R.dimen.image_icon_height)
-                    .placeholder(R.drawable.default_image)
+//            Picasso.with(holder.imageView.getContext()).load(item.imageHref).centerCrop()
+//                    .resizeDimen(R.dimen.image_icon_width, R.dimen.image_icon_height)
+//                    .placeholder(R.drawable.default_image)
+//                    .error(R.drawable.default_image)
+//                    .into(holder.imageView);
+
+            Glide.with(holder.imageView.getContext()).load(item.imageHref)
+                    .centerCrop().placeholder(R.drawable.default_image)
                     .error(R.drawable.default_image)
                     .into(holder.imageView);
         } else {
